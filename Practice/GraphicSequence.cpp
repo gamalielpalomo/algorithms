@@ -7,12 +7,16 @@ int* Recorrimiento(int*);
 int* Ordenamiento(int*);
 void Recursividad(int*);
 bool existsInArray(int*, int);
+bool evaluar(int*);
 int limite;
 
-int main ()
+int main (int arg, char *args[])
 {
 
-	int input[8]={2, 2, 4, 5, 7, 2, 3, 6};				//Esta es la secuencia de entrada
+	int input[arg-1];										//Esta es la secuencia de entrada
+	for(int i=0; i<arg; i++){
+		input[i] = strtol (args[i+1],NULL,10);
+	}
 	limite = (sizeof(input)/sizeof(input[0])) - 1;		//Establecemos el limite para poder hacer la reducción de la secuencia sin utilizar más memoria
 	
 	cout<<"Arreglo inicial: ";
@@ -49,9 +53,9 @@ void Recursividad (int* A)
 
 	int* arrayRecorrido = Recorrimiento(arrayOrdenado);		//Eliminamos al primero recorriendo el array a la izquierda
 
-	for (int i=0; i<=Delta; i++)
+	for (int i=0; i<Delta; i++)
 	{
-		arrayRecorrido[i]--;				//Es decir A[i]=A[i]-1
+		arrayRecorrido[i]--;							//Es decir A[i]=A[i]-1
 	}
 	
 	cout<<endl;
@@ -62,8 +66,15 @@ void Recursividad (int* A)
 		Recursividad(arrayRecorrido);					//Si no hay un 0, seguimos realizando el algoritmo
 	else 
 	{
-		cout << "\nCero encontrado, finalizando...";	//Si encuentra un 0, entonces no es un grafico
-		exit(EXIT_FAILURE);								//Terminar el programa
+		cout << "\nCero encontrado, finalizando...";		//Si encuentra un 0, entonces no es un grafico
+		if(!evaluar(arrayRecorrido)){						//Evaluación no exitosa
+			cout << "\nNo es un grafico";					//La secuencia no es un grafico
+			exit(EXIT_FAILURE);								//Terminar el programa	
+		}
+		else{
+			cout << "\nEs un grafico!";						//Evaluación exitosa
+			exit(EXIT_SUCCESS);								//Terminar el programa
+		}
 	}
 }
 
@@ -102,8 +113,23 @@ int* Ordenamiento(int* A)         		//int* para Arreglos
 bool existsInArray(int* A, int elemento)		//Esta función busca el número entero "elemento" en el array "A"
 {
 	for(int i=0; i<=limite; i++){
-		if (elemento = A[i])
+		if (elemento == A[i])
 			return true;						//El elemento ha sido encontrado, responde con "true"
 	}
 	return false;								//Terminó el ciclo y no encontró a "elemento", responde con "false"
+}
+
+bool evaluar(int* A)							//Función que busca que haya ceros y unos solamente una vez que se encuentra al primer cero
+{
+	bool aux = false;
+	for(int i=0; i<=limite; i++){
+		if(A[i]>1 || A[i]<0)
+			return false;
+		if(A[i]==1)
+			aux = true;
+	}
+	if(aux)
+		return true;
+	else
+		return false;
 }
