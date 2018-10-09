@@ -1,11 +1,12 @@
-import sys.argv
-def RadixSort(d):
+import sys
+def RadixSort(A, d, k):
 	result = A
-	for i in range(d):
-		A = CountingSort(A,i)
+	for i in range(d-1,-1,-1):
+		result = CountingSort(result, k, i)
+	return result
 
 
-def CountingSort(k,d): #It receives a list of strings of the numbers with the same length
+def CountingSort(A, k, d): #It receives a list of strings of the numbers with the same length
 
 	C = []
 	B = []
@@ -25,8 +26,9 @@ def CountingSort(k,d): #It receives a list of strings of the numbers with the sa
 
 	return B
 
-input = argv.pop(0)
-k = argv.pop(0)
-A = argv
-result = CountingSort(k,0)
-print result
+input = sys.argv
+input.pop(0)
+k = int(input.pop(0))
+d = int(input.pop(0))
+A = RadixSort(input, d, k)
+print A
