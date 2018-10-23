@@ -1,6 +1,5 @@
 import sys
 from graphviz import Digraph
-from VisualRBTree import TreeRender
 red = "#a54f4f"
 black = "#545a63"
 class Node:
